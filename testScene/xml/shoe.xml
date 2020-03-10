@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<scene version="0.5.0">
+	<integrator type="path">
+		<integer name="maxDepth" value="3"/>
+		<integer name="rrDepth" value="10"/>
+	</integrator>
+
+	<sensor type="perspective">
+		<float name="farClip" value="100"/>
+		<float name="fov" value="49.1343"/>
+		<string name="fovAxis" value="x"/>
+		<float name="nearClip" value="0.1"/>
+		<transform name="toWorld">
+
+			<lookat target="-3.28693, 2.42231, 2.36426" origin="-4.08503, 2.74936, 2.87029" up="0.468242, -0.19188, 0.862515"/>
+		</transform>
+
+		<sampler type="halton">
+			<integer name="sampleCount" value="256"/>
+		</sampler>
+
+		<film type="ldrfilm">
+			<boolean name="banner" value="false"/>
+			<float name="exposure" value="1"/>
+			<string name="fileFormat" value="png"/>
+			<float name="gamma" value="2"/>
+			<integer name="height" value="512"/>
+			<boolean name="highQualityEdges" value="false"/>
+			<string name="pixelFormat" value="rgb"/>
+			<string name="tonemapMethod" value="gamma"/>
+			<integer name="width" value="768"/>
+
+			<rfilter type="gaussian"/>
+		</film>
+	</sensor>
+
+	<emitter type="envmap" id="Hemi-light">
+		<string name="filename" value="envmap.exr"/>
+		<transform name="toWorld">
+			<matrix value="1.000000 0.000000 0.000000 0.206579 0.000000 0.000000 -1.000000 -1.161968 0.000000 1.000000 0.000000 -0.106557 0.000000 0.000000 0.000000 1.000000 "/>
+		</transform>
+		<float name="scale" value="3.000000"/>
+		<float name="samplingWeight" value="1.000000"/>
+	</emitter>
+
+	<bsdf type="roughconductor" id="backdrop-material">
+		<string name="material" value="al"/>
+		<float name="extEta" value="1.0"/>
+		<rgb name="specularReflectance" value="0.9850811958312988 0.9850811958312988 0.9850811958312988"/>
+		<string name="distribution" value="beckmann"/>
+		<float name="alpha" value="0.1"/>
+		<float name="uvscale" value="0.5"/>
+	</bsdf>
+
+	<shape type="serialized" id="1-shape_0_1">
+		<string name="filename" value="meshes/1_0000_m000.serialized"/>
+		<transform name="toWorld">
+			<matrix value="6.088062 0.000000 2.050362 19.512413 2.050362 -0.000001 -6.088062 0.802341 0.000000 6.424053 -0.000001 0.000000 0.000000 0.000000 0.000000 1.000000 "/>
+		</transform>
+
+		<ref name="bsdf" id="backdrop-material"/>
+	</shape>
+
+	<bsdf type="diffuse" id="diffuse-material">
+		<rgb name="reflectance" value="0.36702197790145874 0.01457572728395462 0.0"/>
+	</bsdf>
+
+	<bsdf type="prestochastic" id="glint-material">
+		<float name="eta" value="1.4"/>
+		<rgb name="k" value="2.819999933242798 2.819999933242798 2.819999933242798"/>
+		<float name="extEta" value="1.4"/>
+		<rgb name="specularReflectance" value="1.0 1.0 1.0"/>
+		<string name="distribution" value="beckmann"/>
+		<float name="alpha" value="0.1"/>
+		<float name="gamma" value="6.0"/>
+
+		<integer name="particleCount" value="1000000"/>
+	</bsdf>
+
+	<bsdf type="mixturebsdf" id="final-material">
+		<string name="weights" value="1.0 1.0 "/>
+
+		<ref name="mat1" id="diffuse-material"/>
+
+		<ref name="mat2" id="glint-material"/>
+	</bsdf>
+
+	<shape type="serialized" id="shoe-shape_0_2">
+		<string name="filename" value="meshes/4_pumps_0_5_0_0_001_0000_m000.serialized"/>
+		<transform name="toWorld">
+			<matrix value="-9.380427 -0.000014 -5.730015 -0.511764 5.724149 0.497227 -9.370825 1.708412 -0.259210 10.980811 0.424317 -0.046650 0.000000 0.000000 0.000000 1.000000 "/>
+		</transform>
+
+		<ref name="bsdf" id="final-material"/>
+	</shape>
+</scene>
